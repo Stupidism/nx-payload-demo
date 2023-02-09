@@ -1,0 +1,12 @@
+diff --git a/node_modules/@nestjs/microservices/client/client-rmq.js b/node_modules/@nestjs/microservices/client/client-rmq.js
+index 485ea0f..e29483e 100644
+--- a/node_modules/@nestjs/microservices/client/client-rmq.js
++++ b/node_modules/@nestjs/microservices/client/client-rmq.js
+@@ -80,6 +80,7 @@ class ClientRMQ extends client_proxy_1.ClientProxy {
+         const disconnect$ = eventToError(constants_1.DISCONNECT_EVENT);
+         const urls = this.getOptionsProp(this.options, 'urls', []);
+         const connectFailed$ = eventToError(constants_1.CONNECT_FAILED_EVENT).pipe((0, operators_1.retryWhen)(e => e.pipe((0, operators_1.scan)((errorCount, error) => {
++            this.close();
+             if (urls.indexOf(error.url) >= urls.length - 1) {
+                 throw error;
+             }

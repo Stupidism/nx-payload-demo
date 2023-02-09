@@ -1,0 +1,59 @@
+diff --git a/node_modules/nestjs-redis/dist/redis-core.module.d.ts b/node_modules/nestjs-redis/dist/redis-core.module.d.ts
+index 3229d21..7190dfe 100644
+--- a/node_modules/nestjs-redis/dist/redis-core.module.d.ts
++++ b/node_modules/nestjs-redis/dist/redis-core.module.d.ts
+@@ -1,10 +1,10 @@
+ import { DynamicModule, OnModuleDestroy } from '@nestjs/common';
+-import { ModuleRef } from '@nestjs/core';
+ import { RedisModuleAsyncOptions, RedisModuleOptions } from './redis.interface';
++import { RedisClient } from './redis-client.provider';
+ export declare class RedisCoreModule implements OnModuleDestroy {
+     private readonly options;
+-    private readonly moduleRef;
+-    constructor(options: RedisModuleOptions | RedisModuleOptions[], moduleRef: ModuleRef);
++    private readonly redisClient;
++    constructor(options: RedisModuleOptions | RedisModuleOptions[], redisClient: RedisClient);
+     static register(options: RedisModuleOptions | RedisModuleOptions[]): DynamicModule;
+     static forRootAsync(options: RedisModuleAsyncOptions): DynamicModule;
+     onModuleDestroy(): void;
+diff --git a/node_modules/nestjs-redis/dist/redis-core.module.js b/node_modules/nestjs-redis/dist/redis-core.module.js
+index 26d8ec8..f9543f2 100644
+--- a/node_modules/nestjs-redis/dist/redis-core.module.js
++++ b/node_modules/nestjs-redis/dist/redis-core.module.js
+@@ -15,14 +15,13 @@ var RedisCoreModule_1;
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.RedisCoreModule = void 0;
+ const common_1 = require("@nestjs/common");
+-const core_1 = require("@nestjs/core");
+ const redis_client_provider_1 = require("./redis-client.provider");
+ const redis_constants_1 = require("./redis.constants");
+ const redis_service_1 = require("./redis.service");
+ let RedisCoreModule = RedisCoreModule_1 = class RedisCoreModule {
+-    constructor(options, moduleRef) {
++    constructor(options, redisClient) {
+         this.options = options;
+-        this.moduleRef = moduleRef;
++        this.redisClient = redisClient;
+     }
+     static register(options) {
+         return {
+@@ -50,8 +49,8 @@ let RedisCoreModule = RedisCoreModule_1 = class RedisCoreModule {
+                 client.disconnect();
+             }
+         };
+-        const redisClient = this.moduleRef.get(redis_constants_1.REDIS_CLIENT);
+-        const closeClientConnection = closeConnection(redisClient);
++
++        const closeClientConnection = closeConnection(this.redisClient);
+         if (Array.isArray(this.options)) {
+             this.options.forEach(closeClientConnection);
+         }
+@@ -67,6 +66,7 @@ RedisCoreModule = RedisCoreModule_1 = __decorate([
+         exports: [redis_service_1.RedisService],
+     }),
+     __param(0, common_1.Inject(redis_constants_1.REDIS_MODULE_OPTIONS)),
+-    __metadata("design:paramtypes", [Object, core_1.ModuleRef])
++    __param(1, common_1.Inject(redis_constants_1.REDIS_CLIENT)),
++    __metadata("design:paramtypes", [Object, Object])
+ ], RedisCoreModule);
+ exports.RedisCoreModule = RedisCoreModule;

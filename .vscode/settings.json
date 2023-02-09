@@ -1,0 +1,9 @@
+{
+  "search.followSymlinks": false,
+  "files.insertFinalNewline": true,
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow": "/.github/workflows/**/*.yml"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.preferences.importModuleSpecifier": "project-relative"
+}

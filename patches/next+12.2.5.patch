@@ -1,0 +1,26 @@
+diff --git a/node_modules/next/dist/server/render.js b/node_modules/next/dist/server/render.js
+index bceee84..44faa28 100644
+--- a/node_modules/next/dist/server/render.js
++++ b/node_modules/next/dist/server/render.js
+@@ -179,7 +179,7 @@ async function renderToHTML(req, res, pathname, query, renderOpts) {
+     const headTags = (...args)=>callMiddleware("headTags", args);
+     const isSSG = !!getStaticProps;
+     const isBuildTimeSSG = isSSG && renderOpts.nextExport;
+-    const defaultAppGetInitialProps = App.getInitialProps === App.origGetInitialProps;
++    const defaultAppGetInitialProps = !!App && App.getInitialProps === App.origGetInitialProps;
+     const hasPageGetInitialProps = !!((ref1 = Component) == null ? void 0 : ref1.getInitialProps);
+     const hasPageScripts = (ref2 = Component) == null ? void 0 : ref2.unstable_scriptLoader;
+     const pageIsDynamic = (0, _isDynamic).isDynamicRoute(pathname);
+diff --git a/node_modules/next/dist/shared/lib/utils.js b/node_modules/next/dist/shared/lib/utils.js
+index 0a6f07d..c2ab0d3 100644
+--- a/node_modules/next/dist/shared/lib/utils.js
++++ b/node_modules/next/dist/shared/lib/utils.js
+@@ -63,7 +63,7 @@ function _loadGetInitialProps() {
+         }
+         // when called from _app `ctx` is nested in `ctx`
+         const res = ctx.res || ctx.ctx && ctx.ctx.res;
+-        if (!App.getInitialProps) {
++        if (!App || !App.getInitialProps) {
+             if (ctx.ctx && ctx.Component) {
+                 // @ts-ignore pageProps default
+                 return {

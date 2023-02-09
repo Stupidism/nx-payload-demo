@@ -1,0 +1,32 @@
+diff --git a/node_modules/eventemitter2/eventemitter2.d.ts b/node_modules/eventemitter2/eventemitter2.d.ts
+index 25e2189..f8dd942 100644
+--- a/node_modules/eventemitter2/eventemitter2.d.ts
++++ b/node_modules/eventemitter2/eventemitter2.d.ts
+@@ -114,10 +114,25 @@ export interface Listener {
+     off(): this;
+ }
+ 
++/**
++ * Extendable by user.
++ */
++export interface EventDataMap {
++    // foo: [{ id: number, name: string }]
++    // bar: [string, number]
++}
++
++export type EventDataTypeKey = keyof EventDataMap | event | eventNS
++
++export type GetDataType<
++    K extends EventDataTypeKey,
++    Fallback = any[]
++> = K extends EventDataTypeKey ? EventDataMap[K] : Fallback
++
+ export declare class EventEmitter2 {
+     constructor(options?: ConstructorOptions)
+-    emit(event: event | eventNS, ...values: any[]): boolean;
+-    emitAsync(event: event | eventNS, ...values: any[]): Promise<any[]>;
++    emit<K extends EventDataTypeKey >(event: K, ...values: GetDataType<K>): boolean;
++    emitAsync<K extends EventDataTypeKey >(event: K, ...values: GetDataType<K>): Promise<any[]>;
+     addListener(event: event | eventNS, listener: ListenerFn): this|Listener;
+     on(event: event | eventNS, listener: ListenerFn, options?: boolean|OnOptions): this|Listener;
+     prependListener(event: event | eventNS, listener: ListenerFn, options?: boolean|OnOptions): this|Listener;

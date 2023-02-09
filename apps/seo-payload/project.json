@@ -1,0 +1,119 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/seo-payload/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/seo-payload",
+        "main": "apps/seo-payload/src/main.ts",
+        "tsConfig": "apps/seo-payload/tsconfig.app.json",
+        "assets": [],
+        "webpackConfig": "apps/seo-payload/webpack.config.js",
+        "envFile": "apps/seo-payload/.env"
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "seo-payload:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/seo-payload/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/seo-payload"],
+      "options": {
+        "jestConfig": "apps/seo-payload/jest.config.ts",
+        "passWithNoTests": true,
+        "outputFile": "tmp/seo-payload.output.json"
+      }
+    },
+    "ts-codegen": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "nx run payload-types:ts-codegen"
+      }
+    },
+    "db-migration-status": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/seo-payload",
+        "commands": ["ts-node src/migrations status"],
+        "parallel": false
+      },
+      "configurations": {
+        "stage": {
+          "commands": ["ENV=stage ts-node src/migrations status"]
+        },
+        "prod": {
+          "commands": ["ENV=prod ts-node src/migrations status"]
+        }
+      }
+    },
+    "db-migration-up": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/seo-payload",
+        "commands": ["ts-node src/migrations up"],
+        "parallel": false
+      },
+      "configurations": {
+        "stage": {
+          "commands": ["ENV=stage ts-node src/migrations up"]
+        },
+        "prod": {
+          "commands": ["ENV=prod ts-node src/migrations up"]
+        }
+      }
+    },
+    "db-migration-down": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/seo-payload",
+        "commands": ["ts-node src/migrations down -l"],
+        "parallel": false
+      },
+      "configurations": {
+        "stage": {
+          "commands": ["ENV=stage ts-node src/migrations down -l"]
+        },
+        "prod": {
+          "commands": ["ENV=prod ts-node src/migrations down -l"]
+        }
+      }
+    },
+    "run-script": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["npm run ts-node {args.file}"],
+        "parallel": false
+      },
+      "configurations": {
+        "stage": {
+          "commands": ["ENV=stage npm run ts-node {args.file}"]
+        },
+        "prod": {
+          "commands": ["ENV=prod npm run ts-node {args.file}"]
+        }
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/seo-payload/scripts",
+        "commands": ["./deploy-image", "./deploy-stack"],
+        "parallel": false
+      }
+    }
+  },
+  "tags": []
+}

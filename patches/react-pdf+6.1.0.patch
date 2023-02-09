@@ -1,0 +1,57 @@
+diff --git a/node_modules/react-pdf/dist/cjs/Page/TextLayer.js b/node_modules/react-pdf/dist/cjs/Page/TextLayer.js
+index c7d5e3e..316265b 100644
+--- a/node_modules/react-pdf/dist/cjs/Page/TextLayer.js
++++ b/node_modules/react-pdf/dist/cjs/Page/TextLayer.js
+@@ -179,8 +179,13 @@ var TextLayerInternal = /*#__PURE__*/function (_PureComponent) {
+         container.append(end);
+         _this2.endElement.current = end;
+         if (customTextRenderer) {
++          // HOTFIX: textContent item number is not matching with layerElement children number due to wrong linebreaks
++          var linebreakCount = 0;
+           textContent.items.forEach(function (item, itemIndex) {
+-            var child = _this2.layerElement.current.children[itemIndex];
++            if(item.hasEOL && item.str.trim() !== ''){
++              linebreakCount += 1;
++            }
++            var child = _this2.layerElement.current.children[itemIndex + linebreakCount];
+             var content = customTextRenderer(_objectSpread({
+               itemIndex: itemIndex
+             }, item));
+diff --git a/node_modules/react-pdf/dist/esm/Page/TextLayer.js b/node_modules/react-pdf/dist/esm/Page/TextLayer.js
+index e7f502a..7543b47 100644
+--- a/node_modules/react-pdf/dist/esm/Page/TextLayer.js
++++ b/node_modules/react-pdf/dist/esm/Page/TextLayer.js
+@@ -168,8 +168,13 @@ export var TextLayerInternal = /*#__PURE__*/function (_PureComponent) {
+         container.append(end);
+         _this2.endElement.current = end;
+         if (customTextRenderer) {
++          // HOTFIX: textContent item number is not matching with layerElement children number due to wrong linebreaks
++          let linebreakCount = 0;
+           textContent.items.forEach(function (item, itemIndex) {
+-            var child = _this2.layerElement.current.children[itemIndex];
++            if(item.hasEOL && item.str.trim() !== ''){
++              linebreakCount += 1;
++            }
++            var child = _this2.layerElement.current.children[itemIndex+linebreakCount];
+             var content = customTextRenderer(_objectSpread({
+               itemIndex: itemIndex
+             }, item));
+diff --git a/node_modules/react-pdf/src/Page/TextLayer.jsx b/node_modules/react-pdf/src/Page/TextLayer.jsx
+index 2a398c1..250b57b 100644
+--- a/node_modules/react-pdf/src/Page/TextLayer.jsx
++++ b/node_modules/react-pdf/src/Page/TextLayer.jsx
+@@ -169,8 +169,13 @@ export class TextLayerInternal extends PureComponent {
+         this.endElement.current = end;
+ 
+         if (customTextRenderer) {
++          // HOTFIX: textContent item number is not matching with layerElement children number due to wrong linebreaks
++          let linebreakCount = 0;
+           textContent.items.forEach((item, itemIndex) => {
+-            const child = this.layerElement.current.children[itemIndex];
++            if(item.hasEOL && item.str.trim() !== ''){
++              linebreakCount += 1;
++            }
++            const child = this.layerElement.current.children[itemIndex + linebreakCount];
+ 
+             const content = customTextRenderer({
+               itemIndex,

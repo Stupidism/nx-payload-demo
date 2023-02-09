@@ -1,0 +1,138 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+.serverless
+
+# Do not commit copied sls component config of root folder
+/*serverless.yml
+
+.webpack
+.esbuild
+
+# compiled output
+**/dist
+/tmp
+/out-tsc
+
+# dependencies
+**/node_modules
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+contentful-export*.json
+contentful-import*.json
+errors-*.log
+*.log
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Local dev
+.env
+.env.*.local
+.env.local.*
+.local.env*
+*.local.js
+# nrwl nx default override for .env
+.local.env
+# nextjs default override for .env
+.env.local
+apps/quoting/src/scripts/data.json
+apps/quoting/src/scripts/branch-response.json
+
+# Nextjs apps
+.next/
+# .env supposed to be commited to repo
+!**/ui-expert-qna/.env
+!**/ui-seo-states/.env
+!**/cms/.env
+!**/los/.env
+!**/webquotes/.env
+!**/seo-payload/.env
+
+# Cypress visual test diff
+__diff_output__
+
+# Pdf visual test diff
+*.new.png
+*.diff.png
+
+# Headless specific
+apps/headless/src/scripts/*.json
+apps/headless-worker/src/scripts/*.json
+!apps/headless/src/scripts/sample.json
+!apps/headless-worker/src/scripts/sample.json
+
+# Post bind
+apps/post-bind/src/scripts/*.json
+!apps/post-bind/src/scripts/policy-status-sample.json
+!apps/post-bind/src/scripts/retention-sample.json
+!apps/post-bind/src/scripts/post-bind-sample.json
+!apps/post-bind/src/scripts/process-adhoc-payment-sample.json
+
+# Headless ML
+__pycache__
+.requirements.zip
+venv/
+
+# Exclude testing data
+.data/dynamodb/*
+!.data/dynamodb/.gitkeep
+.data/s3/*
+!.data/s3/.gitkeep
+
+# Exclude generated graphql schemas
+schema*.gql
+
+# CDK
+cdk.context.json
+
+# Eslogs
+_es-logs/
+
+# husky config
+.huskyrc
+
+#pdf-ocr
+/apps/pdf-ocr/utils/
+
+#telematics ref data
+/apps/telematics/local_data/
+
+# vercel
+/.vercel
+
+# compodoc
+.doc
+
+# cube store
+/apps/content-analytics/.cubestore/
+
+# asdf tool
+.tool-versions
+
+# swx cache
+.swc/

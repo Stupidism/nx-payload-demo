@@ -1,0 +1,40 @@
+diff --git a/node_modules/serverless/lib/cli/ensure-supported-command.js b/node_modules/serverless/lib/cli/ensure-supported-command.js
+index ba8b673..3bf5018 100644
+--- a/node_modules/serverless/lib/cli/ensure-supported-command.js
++++ b/node_modules/serverless/lib/cli/ensure-supported-command.js
+@@ -41,10 +41,11 @@ module.exports = (configuration = null) => {
+     (optionName) => !supportedOptions.has(optionName)
+   );
+   if (unrecognizedOptions.length) {
+-    throw new ServerlessError(
++    console.warn(
+       `Detected unrecognized CLI options: "--${unrecognizedOptions.join('", "--')}".\n`,
+       'UNSUPPORTED_CLI_OPTIONS'
+     );
++    return;
+   }
+   if (isContainerCommand) return;
+   if (commandSchema.serviceDependencyMode === 'required' && !configuration) {
+diff --git a/node_modules/serverless/lib/cli/resolve-configuration-path.js b/node_modules/serverless/lib/cli/resolve-configuration-path.js
+index 1f324ee..f9acfb3 100644
+--- a/node_modules/serverless/lib/cli/resolve-configuration-path.js
++++ b/node_modules/serverless/lib/cli/resolve-configuration-path.js
+@@ -48,12 +48,12 @@ module.exports = async (options = {}) => {
+         'INVALID_SERVICE_CONFIG_PATH'
+       );
+     }
+-    if (cwd !== path.dirname(customConfigPath)) {
+-      throw new ServerlessError(
+-        'Service configuration is expected to be placed in a root of a service (working directory). All paths, function handlers in a configuration are resolved against service directory.\n',
+-        'NESTED_CUSTOM_CONFIGURATION_PATH'
+-      );
+-    }
++    // if (cwd !== path.dirname(customConfigPath)) {
++    //   throw new ServerlessError(
++    //     'Service configuration is expected to be placed in a root of a service (working directory). All paths, function handlers in a configuration are resolved against service directory.\n',
++    //     'NESTED_CUSTOM_CONFIGURATION_PATH'
++    //   );
++    // }
+     return customConfigPath;
+   }
+ 

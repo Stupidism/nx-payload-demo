@@ -1,0 +1,79 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nrwl/nx", "import", "jest", "prettier", "max-params-no-constructor"],
+  "parser": "@typescript-eslint/parser",
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:jest/recommended",
+        "prettier"
+      ],
+      "env": {
+        "node": true,
+        "commonjs": true,
+        "es6": true,
+        "jest": true
+      },
+      "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+      },
+      "plugins": ["import", "jest", "prettier"],
+      "rules": {
+        "@typescript-eslint/consistent-type-imports": "error",
+        "no-console": ["warn", { "allow": ["warn", "error", "info", "group", "groupEnd", "groupCollapsed"] }],
+        "import/no-unresolved": "error",
+        "import/no-cycle": "off",
+        "prettier/prettier": "error",
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "parserOptions": {
+        "project": "tsconfig.base.json"
+      },
+      "settings": {
+        "import/resolver": {
+          "typescript": {
+            "project": ["tsconfig.base.json"]
+          }
+        }
+      },
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/ban-types": "warn",
+        "@typescript-eslint/no-floating-promises": "warn"
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "off"
+      }
+    }
+  ]
+}
