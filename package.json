@@ -197,7 +197,7 @@
     "geojson": "0.5.0",
     "google-auth-library": "7.0.4",
     "google-spreadsheet": "3.3.0",
-    "graphql": "15.4.0",
+    "graphql": "^15.8.0",
     "graphql-middleware": "6.0.10",
     "graphql-redis-subscriptions": "2.6.0",
     "graphql-relay": "0.6.0",
@@ -583,7 +583,8 @@
   "overrides": {
     "pdf-visual-diff": {
       "canvas": "2.11.0"
-    }
+    },
+    "graphql@>15.7.0 <16.7.0": "^15.8.0"
   },
   "workspaces": [
     "apps/*"
